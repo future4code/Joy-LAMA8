@@ -1,0 +1,20 @@
+###
+POST http://localhost:3000/user/signup
+Content-Type: application/json
+
+{
+  "name": "Lais",
+  "email": "lais@email.com",
+  "password": "12345lais",
+  "role": "ADMIN"
+}
+
+###
+POST http://localhost:3000/user/login
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2I1ZmNhLTk2YzItNDRmNi04MDM0LTlkMjVkMWVkMjYwNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY1Njk4MjA2MywiZXhwIjoxNjU2OTgyNjYzfQ.tLwAZArw4kj6jehponK4uURzujTL3p_Wx5mREDZ-uTQ
+Content-Type: application/json
+
+{
+  "email": "lais@email.com",
+  "password": "12345lais"
+}
