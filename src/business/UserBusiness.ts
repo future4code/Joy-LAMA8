@@ -1,43 +1,71 @@
 import { UserInputDTO, LoginInputDTO } from "../model/User";
 import { UserDatabase } from "../data/UserDatabase";
-import { IdGenerator } from "../services/IdGenerator";
-import { HashManager } from "../services/HashManager";
-import { Authenticator } from "../services/Authenticator";
+import {
+  IHashGenerator,
+  IHashManager,
+  IIdGenerator,
+  ITokenGenerator,
+  IUserRepository,
+  UserDTO,
+} from "./ports";
+import { User } from "../domain/user";
 
 export class UserBusiness {
+  constructor(
+    private idGenerator: IIdGenerator,
+    private hashGenerator: IHashGenerator,
+    private userRepository: IUserRepository,
+    private tokenGenerator: ITokenGenerator,
+    private hashManager: IHashManager
+  ) {}
 
-    async createUser(user: UserInputDTO) {
+  async createUser(
+    name: string,
+    email: string,
+    password: string,
+    role: string
+  ) {
+    new User(name, email, password, role);
 
-        const idGenerator = new IdGenerator();
-        const id = idGenerator.generate();
+    const hashPassword = await this.hashGenerator.hash(password);
 
-        const hashManager = new HashManager();
-        const hashPassword = await hashManager.hash(user.password);
+    const user: UserDTO = {
+      id: this.idGenerator.generate(),
+      email,
+      name,
+      hashPassword,
+      role,
+    };
 
-        const userDatabase = new UserDatabase();
-        await userDatabase.createUser(id, user.email, user.name, hashPassword, user.role);
+    await this.userRepository.createUser(user);
+    const accessToken = this.tokenGenerator.generate({
+      id: user.id,
+      role: user.role,
+    });
 
-        const authenticator = new Authenticator();
-        const accessToken = authenticator.generateToken({ id, role: user.role });
+    return accessToken;
+  }
 
-        return accessToken;
+  // o de login eu comecei, mas não finalizei. Tem que jogar o DTO pro "ports.ts" e fazer as devidas alterações aqui.
+
+  async getUserByEmail(user: LoginInputDTO) {
+    const userDatabase = new UserDatabase();
+    const userFromDB = await userDatabase.getUserByEmail(user.email);
+
+    const hashCompare = await this.hashManager.compare(
+      user.password,
+      userFromDB.getPassword()
+    );
+
+    const accessToken = this.tokenGenerator.generate({
+      id: userFromDB.getId(),
+      role: userFromDB.getRole(),
+    });
+
+    if (!hashCompare) {
+      throw new Error("Invalid Password!");
     }
 
-    async getUserByEmail(user: LoginInputDTO) {
-
-        const userDatabase = new UserDatabase();
-        const userFromDB = await userDatabase.getUserByEmail(user.email);
-
-        const hashManager = new HashManager();
-        const hashCompare = await hashManager.compare(user.password, userFromDB.getPassword());
-
-        const authenticator = new Authenticator();
-        const accessToken = authenticator.generateToken({ id: userFromDB.getId(), role: userFromDB.getRole() });
-
-        if (!hashCompare) {
-            throw new Error("Invalid Password!");
-        }
-
-        return accessToken;
-    }
+    return accessToken;
+  }
 }
