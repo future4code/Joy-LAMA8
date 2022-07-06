@@ -18,3 +18,14 @@ Content-Type: application/json
   "email": "lais@email.com",
   "password": "12345lais"
 }
+
+###
+POST http://localhost:3000/band/band
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2I1ZmNhLTk2YzItNDRmNi04MDM0LTlkMjVkMWVkMjYwNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY1NzA2NzYxOCwiZXhwIjoxNjU3MDY4MjE4fQ.jnPPoNo37ZANJbs69ASFAXXHGTA3dZOyJ_ok7j-dWgQ
+Content-Type: application/json
+
+{
+  "name": "Banda 1",
+  "musicGenre": "eletrônica",
+  "responsible": "Natany"
+}
