@@ -1,42 +1,50 @@
-export class Band {
-  constructor(
-    private id: string,
-    private name: string,
-    private musicGenre: string,
-    private responsible: string
-  ) { }
+// export class Band {
+//   constructor(
+//     private id: string,
+//     private name: string,
+//     private musicGenre: string,
+//     private responsible: string
+//   ) { }
 
-  getId() {
-    return this.id
-  }
+//   getId() {
+//     return this.id
+//   }
 
-  getName() {
-    return this.name
-  }
+//   getName() {
+//     return this.name
+//   }
 
-  getMusicGenre() {
-    return this.musicGenre
-  }
+//   getMusicGenre() {
+//     return this.musicGenre
+//   }
 
-  getResponsible() {
-    return this.responsible
-  }
-  setName(name: string) {
-    this.name = name;
-  }
+//   getResponsible() {
+//     return this.responsible
+//   }
+//   setName(name: string) {
+//     this.name = name;
+//   }
 
-  setMusicGenre(musicGenre: string) {
-    this.musicGenre = musicGenre;
-  }
+//   setMusicGenre(musicGenre: string) {
+//     this.musicGenre = musicGenre;
+//   }
 
-  setResponsible(responsible: string) {
-    this.responsible = responsible;
-  }
+//   setResponsible(responsible: string) {
+//     this.responsible = responsible;
+//   }
+// }
+
+export interface Band {
+  id: string,
+  name: string,
+  musicGenre: string,
+  responsible: string
 }
 
 export interface BandInputDTO {
   name: string,
   musicGenre: string,
-  responsible: string
+  responsible: string,
+  token: string
 }
 

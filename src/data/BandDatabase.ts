@@ -1,26 +1,25 @@
+import { BandRepository } from "../business/BandRepository";
+import { Band } from "../model/Band";
 import { BaseDatabase } from "./BaseDatabase";
 
 
-export class BandDatabase extends BaseDatabase {
+export class BandDatabase extends BaseDatabase implements BandRepository {
 
   private static TABLE_NAME = "LAMA_BANDAS"
 
   public async createBand(
-    id: string,
-    name: string,
-    musicGenre: string,
-    responsible: string
+    band: Band
   ): Promise<void> {
     try {
       await this.getConnection()
         .insert({
-          id,
-          name,
-          musicGenre,
-          responsible
+          id: band.id,
+          name: band.name,
+          music_genre: band.musicGenre,
+          responsible: band.responsible
         })
         .into(BandDatabase.TABLE_NAME);
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(error.sqlMessage || error.message);
     }
   }
