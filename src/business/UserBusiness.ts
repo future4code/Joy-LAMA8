@@ -1,71 +1,87 @@
-import { UserInputDTO, LoginInputDTO } from "../model/User";
+import { UserInputDTO, LoginInputDTO, Signup } from "../model/User";
 import { UserDatabase } from "../data/UserDatabase";
+import { IdGenerator } from "../services/IdGenerator";
+import { HashManager } from "../services/HashManager";
+import { Authenticator } from "../services/Authenticator";
+import { UserRepository } from "./UserRepository";
+import { MissingFieldsToComplete } from "../error/MissingFieldsToComplete";
 import {
-  IHashGenerator,
-  IHashManager,
-  IIdGenerator,
-  ITokenGenerator,
-  IUserRepository,
-  UserDTO,
-} from "./ports";
-import { User } from "../domain/user";
+  invalidEmail,
+  invalidPassword,
+  invalidUserEmail,
+} from "../error/InvalidInfos";
+import { BaseError } from "../error/BaseError";
 
 export class UserBusiness {
-  constructor(
-    private idGenerator: IIdGenerator,
-    private hashGenerator: IHashGenerator,
-    private userRepository: IUserRepository,
-    private tokenGenerator: ITokenGenerator,
-    private hashManager: IHashManager
-  ) {}
+  constructor(private userDatabase: UserRepository) {}
 
-  async createUser(
-    name: string,
-    email: string,
-    password: string,
-    role: string
-  ) {
-    new User(name, email, password, role);
+  async createUser(signup: UserInputDTO) {
+    try {
+      const { name, email, password, role } = signup;
+      if (!name || !email || !password || !role) {
+        throw new MissingFieldsToComplete();
+      }
+      if (!email.includes("@")) {
+        throw new invalidEmail();
+      }
+      if (password.length < 6) {
+        throw new invalidPassword();
+      }
 
-    const hashPassword = await this.hashGenerator.hash(password);
+      const findEmail = await this.userDatabase.findUserEmail(email);
+      if (findEmail) {
+        throw new invalidUserEmail();
+      }
 
-    const user: UserDTO = {
-      id: this.idGenerator.generate(),
-      email,
-      name,
-      hashPassword,
-      role,
-    };
+      const idGenerator = new IdGenerator();
+      const id = idGenerator.generate();
 
-    await this.userRepository.createUser(user);
-    const accessToken = this.tokenGenerator.generate({
-      id: user.id,
-      role: user.role,
-    });
+      const hashManager = new HashManager();
+      const hashPassword = await hashManager.hash(password);
 
-    return accessToken;
-  }
+      // const userDatabase = new UserDatabase();
+      // await userDatabase.createUser(id, email, name, hashPassword, role);
+      //PARTE DO CÓDIGO DO BOILERPLATE QUE EU SUBSTITUÍ PELO MODELO DO COOKENU
 
-  // o de login eu comecei, mas não finalizei. Tem que jogar o DTO pro "ports.ts" e fazer as devidas alterações aqui.
+      const newSignup: Signup = {
+        id,
+        email,
+        name,
+        password: hashPassword,
+        role,
+      };
 
-  async getUserByEmail(user: LoginInputDTO) {
-    const userDatabase = new UserDatabase();
-    const userFromDB = await userDatabase.getUserByEmail(user.email);
+      await this.userDatabase.createUser(newSignup);
 
-    const hashCompare = await this.hashManager.compare(
-      user.password,
-      userFromDB.getPassword()
-    );
+      const authenticator = new Authenticator();
+      const accessToken = authenticator.generate({ id, role: role });
 
-    const accessToken = this.tokenGenerator.generate({
-      id: userFromDB.getId(),
-      role: userFromDB.getRole(),
-    });
-
-    if (!hashCompare) {
-      throw new Error("Invalid Password!");
+      return accessToken;
+    } catch (error: any) {
+      throw new BaseError(error.statusCode, error.sqlMessage || error.message);
     }
-
-    return accessToken;
   }
+
+  // async getUserByEmail(user: LoginInputDTO) {
+  //   const userDatabase = new UserDatabase();
+  //   const userFromDB = await userDatabase.getUserByEmail(user.email);
+
+  //   const hashManager = new HashManager();
+  //   const hashCompare = await hashManager.compare(
+  //     user.password,
+  //     userFromDB.getPassword()
+  //   );
+
+  //   const authenticator = new Authenticator();
+  //   const accessToken = authenticator.generate({
+  //     id: userFromDB.getId(),
+  //     role: userFromDB.getRole(),
+  //   });
+
+  //   if (!hashCompare) {
+  //     throw new Error("Invalid Password!");
+  //   }
+
+  //   return accessToken;
+  // }
 }
