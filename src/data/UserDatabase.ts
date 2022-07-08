@@ -25,6 +25,7 @@ export class UserDatabase extends BaseDatabase implements UserRepository {
       throw new BaseError(error.statusCode, error.sqlMessage || error.message);
     }
   }
+  
   // public async createUser(
   //   id: string,
   //   email: string,

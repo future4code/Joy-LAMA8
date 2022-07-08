@@ -1,7 +1,6 @@
 import * as jwt from "jsonwebtoken";
-import { ITokenGenerator } from "../business/ports";
 
-export class Authenticator implements ITokenGenerator {
+export class Authenticator  {
   public generate(
     input: AuthenticationData,
     expiresIn: string = process.env.ACCESS_TOKEN_EXPIRES_IN!

@@ -4,7 +4,9 @@ import { UserBusiness } from "../business/UserBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
 
 export class UserController {
-  constructor(private userBusiness: UserBusiness) {}
+  constructor(private userBusiness: UserBusiness) {
+    this.userBusiness = userBusiness
+  }
 
   async signup(req: Request, res: Response) {
     try {
@@ -20,6 +22,8 @@ export class UserController {
 
       res.status(200).send({ message: "Conta criada!", token });
     } catch (error: any) {
+      console.log(error);
+      
       res.status(400).send({ error: error.message });
     }
 
