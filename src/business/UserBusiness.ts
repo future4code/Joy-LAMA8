@@ -1,5 +1,4 @@
 import { UserInputDTO, LoginInputDTO, Signup } from "../model/User";
-import { UserDatabase } from "../data/UserDatabase";
 import { IdGenerator } from "../services/IdGenerator";
 import { HashManager } from "../services/HashManager";
 import { Authenticator } from "../services/Authenticator";
