@@ -18,6 +18,7 @@ export class UserBusiness {
   async createUser(signup: UserInputDTO) {
     try {
       const { name, email, password, role } = signup;
+      
       if (!name || !email || !password || !role) {
         throw new MissingFieldsToComplete();
       }
@@ -42,7 +43,7 @@ export class UserBusiness {
       // const userDatabase = new UserDatabase();
       // await userDatabase.createUser(id, email, name, hashPassword, role);
       //PARTE DO CÓDIGO DO BOILERPLATE QUE EU SUBSTITUÍ PELO MODELO DO COOKENU
-
+      
       const newSignup: Signup = {
         id,
         email,
@@ -52,15 +53,18 @@ export class UserBusiness {
       };
 
       await this.userDatabase.createUser(newSignup);
-
+      
       const authenticator = new Authenticator();
       const accessToken = authenticator.generate({ id, role: role });
 
       return accessToken;
-    } catch (error: any) {
-      throw new BaseError(error.statusCode, error.sqlMessage || error.message);
+  }
+    catch (error:any) {
+      
+     throw new BaseError(error.statusCode, error.sqlMessage || error.message);
     }
   }
+}
 
   // async getUserByEmail(user: LoginInputDTO) {
   //   const userDatabase = new UserDatabase();
@@ -84,4 +88,4 @@ export class UserBusiness {
 
   //   return accessToken;
   // }
-}
+

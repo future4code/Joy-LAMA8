@@ -18,7 +18,7 @@ export class BandBusiness {
 
 
   async createBand(inputBand: BandInputDTO) {
-
+try{ 
     const { name, musicGenre, responsible, token } = inputBand
 
     if(!token) {
@@ -35,6 +35,10 @@ export class BandBusiness {
       throw new invalidAuthenticatorData()
     }
 
+    if (authenticatorData.role !== "ADMIN") {
+      throw new Error("Acesso não permitido");
+    }
+
     const id = idGenerator.generate()
 
     const newBand: Band ={
@@ -45,7 +49,9 @@ export class BandBusiness {
     }
 
     await this.bandDatabse.createBand(newBand)
-  }catch(error: any) {
+  }
+  catch(error: any) {
     throw new BaseError(error.statusCode,error.sqlMessage || error.message);
   }
+}
 }

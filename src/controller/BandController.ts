@@ -21,7 +21,7 @@ export class BandController {
       await this.bandBusiness.createBand(band)
 
       res.status(201).send({ message: "Banda registrada com sucesso"})
-    } catch (err) {
+    } catch (err: any) {
       res.status(err.statusCode).send(err.message)
     }
   }

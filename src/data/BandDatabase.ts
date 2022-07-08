@@ -19,7 +19,7 @@ export class BandDatabase extends BaseDatabase implements BandRepository {
           responsible: band.responsible
         })
         .into(BandDatabase.TABLE_NAME);
-    } catch (error) {
+    } catch (error:any) {
       throw new Error(error.sqlMessage || error.message);
     }
   }
