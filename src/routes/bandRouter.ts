@@ -11,3 +11,4 @@ const bandBusiness = new BandBusiness(bandDatabase)
 const bandController = new BandController(bandBusiness)
 
 bandRouter.post("/band", (req, res) => bandController.createBandController(req,res))
+// bandRouter.get("/band/:id", (req, res) => bandController.getBandByIdController(req,res))

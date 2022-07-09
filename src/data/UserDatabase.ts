@@ -48,11 +48,12 @@ export class UserDatabase extends BaseDatabase implements UserRepository {
   //   }
   // }
 
-  // public async getUserByEmail(email: string): Promise<User> {
-  //   const result = await this.getConnection()
-  //     .select("*")
-  //     .from(UserDatabase.TABLE_NAME)
-  //     .where({ email });
+  public async getUserByEmail(email: string): Promise<User> {
+    const result = await this.getConnection()
+      .select("*")
+      .from(UserDatabase.TABLE_NAME)
+      .where({ email });
 
-  //   return User.toUserModel(result[0]);
+    return User.toUserModel(result[0]);
+  }
 }

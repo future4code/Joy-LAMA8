@@ -4,9 +4,7 @@ import { UserBusiness } from "../business/UserBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
 
 export class UserController {
-  constructor(private userBusiness: UserBusiness) {
-    this.userBusiness = userBusiness
-  }
+  constructor(private userBusiness: UserBusiness) {}
 
   async signup(req: Request, res: Response) {
     try {
@@ -30,21 +28,21 @@ export class UserController {
     await BaseDatabase.destroyConnection();
   }
 
-  //   async login(req: Request, res: Response) {
-  //     try {
-  //       const loginData: LoginInputDTO = {
-  //         email: req.body.email,
-  //         password: req.body.password,
-  //       };
+    async login(req: Request, res: Response) {
+      try {
+        const loginData: LoginInputDTO = {
+          email: req.body.email,
+          password: req.body.password,
+        };
 
-  //       const userBusiness = new UserBusiness();
-  //       const token = await userBusiness.getUserByEmail(loginData);
+        // const userBusiness = new UserBusiness();
+        const token = await this.userBusiness.getUserByEmail(loginData);
 
-  //       res.status(200).send({ message: "Usuário Logado!", token });
-  //     } catch (error: any) {
-  //       res.status(400).send({ error: error.message });
-  //     }
+        res.status(200).send({ message: "Usuário Logado!", token });
+      } catch (error: any) {
+        res.status(400).send({ error: error.message });
+      }
 
-  //     await BaseDatabase.destroyConnection();
-  //   }
+      await BaseDatabase.destroyConnection();
+    }
 }
