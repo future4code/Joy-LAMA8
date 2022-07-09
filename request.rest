@@ -3,9 +3,9 @@ POST http://localhost:3000/user/signup
 Content-Type: application/json
 
 {
-  "name": "susi",
-  "email": "susi@email.com",
-  "password": "12345susi",
+  "name": "fuki",
+  "email": "fugi@email.com",
+  "password": "12gt45susi",
   "role": "ADMIN"
 }
 
@@ -15,8 +15,8 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2I1ZmNhLTk2YzIt
 Content-Type: application/json
 
 {
-  "email": "lais@email.com",
-  "password": "12345lais"
+  "email": "sjkjkuui@email.com",
+  "password": "uuusi@email.com"
 }
 
 ###
@@ -29,3 +29,4 @@ Content-Type: application/json
   "musicGenre": "eletrônica",
   "responsible": "Natany"
 }
+
