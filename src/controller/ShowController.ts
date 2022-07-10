@@ -23,7 +23,9 @@ export class ShowsController {
 
       res.status(201).send({message: "Show agendado com sucesso!"})
     } catch (error:any) { 
-      res.status(error.statusCode).send(error.message)
+      console.log(error);
+      
+      res.status(400).send({ error: error.message })
     }
   }
 
