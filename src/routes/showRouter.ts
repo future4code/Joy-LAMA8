@@ -12,3 +12,8 @@ const showController = new ShowsController(showBusiness);
 showRouter.get("/shows/:date", (req, res) =>
   showController.getShowByDateController(req, res)
 );
+
+showRouter.post("/", (req, res) =>
+  showController.createShows(req, res)
+);
+

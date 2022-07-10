@@ -1,11 +1,9 @@
-import { BandDatabase } from "../data/BandDatabase";
 import { invalidAuthenticatorData, invalidToken } from "../error/AuthenticatorError";
 import { invalidBand } from "../error/BandError";
 import { BaseError } from "../error/BaseError";
 import { MissingFieldsToComplete } from "../error/MissingFieldsToComplete";
 import { Band, BandInputDTO } from "../model/Band";
 import { Authenticator } from "../services/Authenticator";
-import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { BandRepository } from "./BandRepository";
 

@@ -11,4 +11,5 @@ export interface ShowsInputDTO {
   startTime: number;
   endTime: number;
   bandId: string;
+  token: string
 }
