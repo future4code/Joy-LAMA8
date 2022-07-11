@@ -13,7 +13,7 @@
     🚨 Sobre 
 </br>
 
-Este é um projeto desenvolvido em equipe  que busca reproduzir as  funcionalidades de um sistema para o gerenciamento completo de shows musicais. Consistindo basicamente no backend integrado com o banco de dados MySql. 
+Este é um projeto elaborado em equipe  que busca reproduzir as  funcionalidades de um sistema para o gerenciamento completo de shows musicais. Consistindo basicamente no desenvolvimento de um backend voltado para  um padrão de arquitetura de microserviços e integrado com o banco de dados MySql. 
 
 </BR>
 
