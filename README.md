@@ -24,11 +24,11 @@ Este é um projeto elaborado em equipe  que busca reproduzir as  funcionalidades
 
     TIME
 </div>
-      
--  karla Natany Gonçalves Bolzoni
--  Laís Medrado Soares da Silva
-- Lucas Txai
-     
+<ul>      
+<a href="https://github.com/karlanatany"><li>Karla Natany Gonçalves Bolzoni</li></a>
+<a href ="https://github.com/laismedrado"><li>Laís Medrado Soares da Silva</li></a>
+<a href ="https://github.com/LTxai"><li>Lucas Txai Medeiros da Fonceca</li></a>
+</ul>
 </BR>
  
 
