@@ -36,7 +36,7 @@ export class UserController {
         };
 
         // const userBusiness = new UserBusiness();
-        const token = await this.userBusiness.getUserByEmail(loginData);
+        const token = await this.userBusiness.userLogin(loginData);
 
         res.status(200).send({ message: "Usuário Logado!", token });
       } catch (error: any) {

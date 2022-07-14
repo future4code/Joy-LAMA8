@@ -14,6 +14,7 @@ export class ShowDataBase extends BaseDatabase implements ShowRepository {
           week_day: show.weekDay,
           start_time: show.startTime,
           end_time: show.endTime,
+          band_id: show.bandId
         })
         .into(ShowDataBase.TABLE_NAME);
     } catch (error: any) {

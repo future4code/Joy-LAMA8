@@ -1,13 +1,33 @@
 import { Request, Response } from "express";
 import { ShowsBusiness } from "../business/ShowsBusiness";
+import { ShowsInputDTO } from "../model/Show";
 
 export class ShowsController {
-  constructor(private showBusiness: ShowsBusiness) {}
+  constructor(private showBusiness: ShowsBusiness) { }
 
-//   async createShows(req: Request, res: Response) {
-//     try {
-//     } catch (error) {}
-//   }
+  async createShows(req: Request, res: Response) {
+    try {
+      const token = req.headers.authorization as string
+
+      const { weekDay, startTime, endTime, bandId } = req.body
+
+      const show: ShowsInputDTO = {
+        weekDay,
+        startTime,
+        endTime,
+        bandId,
+        token
+      }
+
+      await this.showBusiness.createShow(show)
+
+      res.status(201).send({message: "Show agendado com sucesso!"})
+    } catch (error:any) { 
+      console.log(error);
+      
+      res.status(400).send({ error: error.message })
+    }
+  }
 
   async getShowByDateController(req: Request, res: Response) {
     try {
